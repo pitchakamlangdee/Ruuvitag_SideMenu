@@ -1,0 +1,7 @@
+{
+  "name": "Ruuvitag_Sidemenu",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
