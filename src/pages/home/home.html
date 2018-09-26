@@ -7,11 +7,26 @@
   </ion-navbar>
 </ion-header>
 
-
-  <ion-content>
-      <ion-slides padding class="bg-image" #slider (ionSlideNextEnd)="loadNext()" (ionSlidePrevEnd)="loadPrev()" [initialSlide]="1">
+<!-- <ion-slides padding class="bg-image" #slider (ionSlideNextEnd)="loadNext()" (ionSlidePrevEnd)="loadPrev()" [initialSlide]="1">
           <ion-slide *ngFor="let n of numbers">
               <h2>Current slide: {{n}}</h2>
           </ion-slide>
-      </ion-slides>
+      </ion-slides> --> 
+
+      <!--in ion-content-->
+
+
+  <ion-content>
+
+      <ion-item>
+          <ion-label>Person</ion-label>
+          <ion-select [(ngModel)]="mac_id"  (ionChange)="getLastDataSensors()">
+            <ion-option  *ngFor="let item of select_sensors_last" [value]="item.mac_id">{{item.Name_Ruuvitag}}</ion-option>
+          </ion-select>
+        </ion-item>
+        {{mac_id}}
+          
+      
+
+
   </ion-content>
