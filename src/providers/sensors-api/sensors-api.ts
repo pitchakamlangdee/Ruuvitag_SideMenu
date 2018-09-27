@@ -38,7 +38,7 @@ export class SensorsApiProvider {
   }
   getLastDataSensors(mac_id){
     return new Promise(resolve => {
-      this.http.get(this.apiUrl +'/API_Last_Ruuvitag.php/').subscribe(data_last => {
+      this.http.get(this.apiUrl +'/API_Last_Data_Ruuvitag.php?mac_id=' + mac_id).subscribe(data_last => {
         resolve(data_last);
       },
         err => {

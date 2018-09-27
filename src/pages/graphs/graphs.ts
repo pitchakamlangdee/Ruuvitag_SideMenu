@@ -17,7 +17,7 @@ export class GraphsPage {
   @ViewChild("doughnutCanvas")
   doughnutCanvas;
   
-  sensors: any;
+  //sensors: any;
   barChart: any;
   lineChart: any;
   pieChart: any;
@@ -25,13 +25,21 @@ export class GraphsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public sensorsApiProvider: SensorsApiProvider) {
     this.getSensors();
+    
+    
   }
 
   getSensors() {
+    let mac_address : [];
     this.sensorsApiProvider.getSensors()
     .then(data => {
-      this.sensors = data;
-      console.log(this.sensors);
+      //this.sensors = data;
+      // for(let i in data){
+      //   mac_address[i] = data[i].mac_id;
+        
+        
+      // }
+      // console.log(mac_address);
     });
   }
   test(a){

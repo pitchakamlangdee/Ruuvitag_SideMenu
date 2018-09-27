@@ -20,11 +20,22 @@
 
       <ion-item>
           <ion-label>Person</ion-label>
-          <ion-select [(ngModel)]="mac_id"  (ionChange)="getLastDataSensors()">
+          <ion-select [(ngModel)]="mac_id" (ionChange)="getLastDataSensors()">
             <ion-option  *ngFor="let item of select_sensors_last" [value]="item.mac_id">{{item.Name_Ruuvitag}}</ion-option>
           </ion-select>
         </ion-item>
-        {{mac_id}}
+          <ion-item  *ngFor="let last_data of sensors_data_last">
+            {{last_data.mac_id}}
+            {{last_data.temperature}}
+            {{last_data.pressure}}
+            {{last_data.humidity}}
+            {{last_data.Time_Stamp}}
+            
+
+
+
+          </ion-item>
+        
           
       
 

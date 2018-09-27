@@ -1,5 +1,5 @@
-import { Component, ViewChild } from "@angular/core";
-import { NavController, Slides } from "ionic-angular";
+import { Component /*, ViewChild */} from "@angular/core";
+import { NavController /*, Slides */} from "ionic-angular";
 import { SensorsApiProvider } from '../../providers/sensors-api/sensors-api';
 
 @Component({
