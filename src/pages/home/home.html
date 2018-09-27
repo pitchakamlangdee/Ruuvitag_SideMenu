@@ -27,6 +27,9 @@
 
   
   <ion-content padding class="bg-image" *ngFor="let last_data of sensors_data_last">
+      <h1 align='center'>
+           {{last_data.Name_Ruuvitag}}
+        </h1><br><br>
     <h1 align='center'>
       <ion-icon color="primary" name="bluetooth"></ion-icon> {{last_data.mac_id}}
     </h1><br><br>
@@ -44,7 +47,7 @@
     <br><br><br>
     <h1 align='center'>
       <ion-icon name="clock"></ion-icon> {{last_data.Time_Stamp}}
-      <br><br><br>
+      
     </h1>
 
 
