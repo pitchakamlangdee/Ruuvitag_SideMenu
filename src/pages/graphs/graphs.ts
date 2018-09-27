@@ -1,7 +1,7 @@
 import { Component, ViewChild } from "@angular/core";
 import { NavController, NavParams } from "ionic-angular";
 import chartJs from "chart.js";
-import { SensorsApiProvider } from '../../providers/sensors-api/sensors-api';
+import { SensorsApiProvider } from "../../providers/sensors-api/sensors-api";
 
 @Component({
   selector: "page-graphs",
@@ -16,50 +16,62 @@ export class GraphsPage {
   pieCanvas;
   @ViewChild("doughnutCanvas")
   doughnutCanvas;
-  
-  //sensors: any;
+
   barChart: any;
   lineChart: any;
   pieChart: any;
   doughnutChart: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public sensorsApiProvider: SensorsApiProvider) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public sensorsApiProvider: SensorsApiProvider
+  ) {
     this.getSensors();
-    
-    
   }
 
   getSensors() {
-    let mac_address : [];
-    this.sensorsApiProvider.getSensors()
-    .then(data => {
-      //this.sensors = data;
-      // for(let i in data){
-      //   mac_address[i] = data[i].mac_id;
-        
-        
-      // }
-      // console.log(mac_address);
+    let mac_address = [];
+    let Name_Ruuvitag = [];
+    let temperature = [];
+    let pressure = [];
+    let time_Stamp = [];
+    let time = [];
+    let date = [];
+    let humidity = [];
+
+    this.sensorsApiProvider.getSensors().then(data => {
+      for (let i in data) {
+        mac_address[i] = data[i].mac_id;
+        Name_Ruuvitag[i] = data[i].Name_Ruuvitag;
+        temperature[i] = data[i].temperature;
+        pressure[i] = data[i].pressure;
+        time_Stamp[i] = data[i].Time_Stamp.split(" ", 2);
+        date[i] = time_Stamp[i][0];
+        time[i] = time_Stamp[i][1];
+        humidity[i] = data[i].humidity;
+      }
+      console.log(date);
+      console.log(time);
     });
   }
-  test(a){
-    console.log(a);
-  }
+
+
 
 
 
 
   
-/////////////////////////////////////start function graph//////////////////////////////
+  /////////////////////////////////////start function graph//////////////////////////////
   ngAfterViewInit() {
     setTimeout(() => {
       this.barChart = this.getBarChart();
       this.lineChart = this.getLineChart();
     }, 150);
-    setTimeout(() => {
-      this.pieChart = this.getPieChart();
-      this.doughnutChart = this.getDoughnutChart();
-    }, 250);
+    // setTimeout(() => {
+    //   this.pieChart = this.getPieChart();
+    //   this.doughnutChart = this.getDoughnutChart();
+    // }, 250);
   }
 
   getChart(context, chartType, data, options?) {
@@ -105,7 +117,7 @@ export class GraphsPage {
       labels: ["Janeiro", "Fevereiro", "Marco", "Abril"],
       datasets: [
         {
-          label: "Meu Dataset",
+          label: "temperature",
           fill: false,
           LineTension: 0.1,
           backgroundColor: "rgb(0, 178, 255)",
@@ -134,35 +146,40 @@ export class GraphsPage {
     };
     return this.getChart(this.lineCanvas.nativeElement, "line", data);
   }
-  getPieChart() {
-    const data = {
-      labels: ["Vermelho", "Azul", "Amarelo"],
-      datasets: [
-        {
-          data: [300, 75, 224],
-          backgroundColor: ["reb(200,6,0)", "rgb(36,0,255)", "rgb(242,255,0)"]
-        }
-      ]
-    };
 
-    return this.getChart(this.pieCanvas.nativeElement, "pie", data);
-  }
 
-  getDoughnutChart() {
-    const data = {
-      labels: ["Vermelho", "Azul", "Amarelo"],
-      datasets: [
-        {
-          label: "Teate Chart",
-          data: [12, 65, 32],
-          backgroundColor: [
-            "rgb(0, 244, 97)",
-            "rgb(37, 39, 43)",
-            "rgb(255, 207, 0)"
-          ]
-        }
-      ]
-    };
-    return this.getChart(this.doughnutCanvas.nativeElement, "doughnut", data);
-  }
+
+
+
+  // getPieChart() {
+  //   const data = {
+  //     labels: ["Vermelho", "Azul", "Amarelo"],
+  //     datasets: [
+  //       {
+  //         data: [300, 75, 224],
+  //         backgroundColor: ["reb(200,6,0)", "rgb(36,0,255)", "rgb(242,255,0)"]
+  //       }
+  //     ]
+  //   };
+
+  //   return this.getChart(this.pieCanvas.nativeElement, "pie", data);
+  // }
+
+  // getDoughnutChart() {
+  //   const data = {
+  //     labels: ["Vermelho", "Azul", "Amarelo"],
+  //     datasets: [
+  //       {
+  //         label: "Teate Chart",
+  //         data: [12, 65, 32],
+  //         backgroundColor: [
+  //           "rgb(0, 244, 97)",
+  //           "rgb(37, 39, 43)",
+  //           "rgb(255, 207, 0)"
+  //         ]
+  //       }
+  //     ]
+  //   };
+  //   return this.getChart(this.doughnutCanvas.nativeElement, "doughnut", data);
+  // }
 }
