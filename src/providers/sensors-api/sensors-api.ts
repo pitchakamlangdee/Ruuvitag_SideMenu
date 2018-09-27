@@ -36,9 +36,9 @@ export class SensorsApiProvider {
         });
     });
   }
-  getLastDataSensors(mac_id){
+  getLastDataSensors(selectedItem){
     return new Promise(resolve => {
-      this.http.get(this.apiUrl +'/API_Last_Data_Ruuvitag.php?mac_id=' + mac_id).subscribe(data_last => {
+      this.http.get(this.apiUrl +'/API_Last_Data_Ruuvitag.php?selectedItem=' + selectedItem).subscribe(data_last => {
         resolve(data_last);
       },
         err => {

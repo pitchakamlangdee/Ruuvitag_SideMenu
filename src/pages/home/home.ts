@@ -12,12 +12,13 @@ export class HomePage {
   // firstLoad = true;
   select_sensors_last: any;
   sensors_data_last: any;
-  private mac_id : any;
+  private selectedItem : any;
   
   
   
   constructor(public navCtrl: NavController, public sensorsApiProvider: SensorsApiProvider) {
     this.getLastSelectSensors();
+    
 
   }
   getLastSelectSensors() {
@@ -25,11 +26,13 @@ export class HomePage {
     .then(select_data_last => {
       this.select_sensors_last = select_data_last;
       console.log(this.select_sensors_last);
+      this.selectedItem = this.select_sensors_last[0].mac_id;
+      this.getLastDataSensors();
     });
   }
 
   getLastDataSensors(){
-    this.sensorsApiProvider.getLastDataSensors(this.mac_id)
+    this.sensorsApiProvider.getLastDataSensors(this.selectedItem)
     
     .then(data_last => {
       this.sensors_data_last = data_last;
