@@ -15,10 +15,22 @@ export class SensorsApiProvider {
     console.log('Hello SensorsApiProvider Provider');
 
   }
-  getSensors() {
+  
+  getMacSelect() {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl +'/API_Ruuvitag.php/').subscribe(data => {
-        resolve(data);
+      this.http.get(this.apiUrl +'/API_Mac_Ruuvitag.php/').subscribe(select_mac => {
+        resolve(select_mac);
+      },
+        err => {
+          console.log(err);
+        });
+    });
+  }
+  
+  getLastDataSensors(selectedItem){
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl +'/API_Last_Data_Ruuvitag.php?selectedItem=' + selectedItem).subscribe(data_last => {
+        resolve(data_last);
       },
         err => {
           console.log(err);
@@ -26,20 +38,10 @@ export class SensorsApiProvider {
     });
   }
 
-  getLastSelectSensors() {
+  getGraphsDataDay(myDate,selectedItemGraphs) {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl +'/API_Mac_Ruuvitag.php/').subscribe(select_data_last => {
-        resolve(select_data_last);
-      },
-        err => {
-          console.log(err);
-        });
-    });
-  }
-  getLastDataSensors(selectedItem){
-    return new Promise(resolve => {
-      this.http.get(this.apiUrl +'/API_Last_Data_Ruuvitag.php?selectedItem=' + selectedItem).subscribe(data_last => {
-        resolve(data_last);
+      this.http.get(this.apiUrl +'/API_Ruuvitag.php?selectedItemGraphs='+selectedItemGraphs+'&myDate='+myDate).subscribe(data => {
+        resolve(data);
       },
         err => {
           console.log(err);

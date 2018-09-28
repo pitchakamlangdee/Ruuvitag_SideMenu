@@ -10,23 +10,23 @@ export class HomePage {
   //@ViewChild('slider') private slider: Slides;
   // numbers = [0, 1, 2];
   // firstLoad = true;
-  select_sensors_last: any;
+  select_mac_home: any;
   sensors_data_last: any;
   private selectedItem : any;
   
   
   
   constructor(public navCtrl: NavController, public sensorsApiProvider: SensorsApiProvider) {
-    this.getLastSelectSensors();
+    this.getMacSelectHome();
     
 
   }
-  getLastSelectSensors() {
-    this.sensorsApiProvider.getLastSelectSensors()
-    .then(select_data_last => {
-      this.select_sensors_last = select_data_last;
-      console.log(this.select_sensors_last);
-      this.selectedItem = this.select_sensors_last[0].mac_id;
+  getMacSelectHome() {
+    this.sensorsApiProvider.getMacSelect()
+    .then(select_mac => {
+      this.select_mac_home = select_mac;
+      console.log(this.select_mac_home);
+      this.selectedItem = this.select_mac_home[0].mac_id;
       this.getLastDataSensors();
     });
   }

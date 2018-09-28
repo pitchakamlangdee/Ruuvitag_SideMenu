@@ -17,56 +17,67 @@ export class GraphsPage {
   @ViewChild("doughnutCanvas")
   doughnutCanvas;
 
+  select_mac_graphs: any;
+  myDate :any;
+  selectedItemGraphs : any;
   barChart: any;
   lineChart: any;
   pieChart: any;
   doughnutChart: any;
+
+  
+  mac_address = [];
+  Name_Ruuvitag = [];
+  temperature = [];
+  pressure = [];
+  time_Stamp = [];
+  time = [];
+  date = [];
+  humidity = [];
+  //getGraphsData
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public sensorsApiProvider: SensorsApiProvider
   ) {
-    this.getSensors();
+    this.getMacSelectGraphs(); 
+    
   }
-
-  getSensors() {
-    let mac_address = [];
-    let Name_Ruuvitag = [];
-    let temperature = [];
-    let pressure = [];
-    let time_Stamp = [];
-    let time = [];
-    let date = [];
-    let humidity = [];
-
-    this.sensorsApiProvider.getSensors().then(data => {
-      for (let i in data) {
-        mac_address[i] = data[i].mac_id;
-        Name_Ruuvitag[i] = data[i].Name_Ruuvitag;
-        temperature[i] = data[i].temperature;
-        pressure[i] = data[i].pressure;
-        time_Stamp[i] = data[i].Time_Stamp.split(" ", 2);
-        date[i] = time_Stamp[i][0];
-        time[i] = time_Stamp[i][1];
-        humidity[i] = data[i].humidity;
-      }
-      console.log(date);
-      console.log(time);
+  getMacSelectGraphs() {
+    this.sensorsApiProvider.getMacSelect().then(select_mac => {
+      this.select_mac_graphs = select_mac;
+      console.log(this.select_mac_graphs);
     });
   }
 
+  getGraphsDataDay() {
+   
+    
+    this.sensorsApiProvider.getGraphsDataDay(this.myDate, this.selectedItemGraphs).then(data => {
+      for (let i in data) {
+        this.mac_address[i] = data[i].mac_id;
+        this.Name_Ruuvitag[i] = data[i].Name_Ruuvitag;
+        this.temperature[i] = data[i].temperature;
+        this.pressure[i] = data[i].pressure;
+        this.time_Stamp[i] = data[i].Time_Stamp.split(" ", 2);
+        this.date[i] = this.time_Stamp[i][0];
+        this.time[i] = this.time_Stamp[i][1];
+        this.humidity[i] = data[i].humidity;
+        
+      }
+       console.log(this.mac_address);
+       //console.log(time);
+       this.getLineChart();
+    });
+    
+  }
 
-
-
-
-
-  
   /////////////////////////////////////start function graph//////////////////////////////
   ngAfterViewInit() {
     setTimeout(() => {
-      this.barChart = this.getBarChart();
       this.lineChart = this.getLineChart();
+      this.barChart = this.getBarChart();
     }, 150);
     // setTimeout(() => {
     //   this.pieChart = this.getPieChart();
@@ -80,6 +91,40 @@ export class GraphsPage {
       options,
       type: chartType
     });
+  }
+  getLineChart() {
+    const data = {
+      labels: this.time,
+      datasets: [
+        {
+          label: "temperature",
+          fill: false,
+          LineTension: 0.1,
+          backgroundColor: "rgb(0, 178, 255)",
+          borderColor: "rgb(231, 205, 35)",
+          borderCapStyle: "butt",
+          borderJoinStyle: "mitter",
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: this.temperature,
+          scanGaps: false
+        },
+        {
+          label: "humidity",
+          fill: false,
+          LineTension: 0.1,
+          backgroundColor: "rgb(117, 0, 49)",
+          borderColor: "rgb(51, 50, 46)",
+          borderCapStyle: "butt",
+          borderJoinStyle: "mitter",
+          pointRadius: 1,
+          pointHitRadius: 10,
+          data: this.humidity,
+          scanGaps: false
+        }
+      ]
+    };
+    return this.getChart(this.lineCanvas.nativeElement, "line", data);
   }
   getBarChart() {
     const data = {
@@ -112,44 +157,7 @@ export class GraphsPage {
     };
     return this.getChart(this.barCanvas.nativeElement, "bar", data, options);
   }
-  getLineChart() {
-    const data = {
-      labels: ["Janeiro", "Fevereiro", "Marco", "Abril"],
-      datasets: [
-        {
-          label: "temperature",
-          fill: false,
-          LineTension: 0.1,
-          backgroundColor: "rgb(0, 178, 255)",
-          borderColor: "rgb(231, 205, 35)",
-          borderCapStyle: "butt",
-          borderJoinStyle: "mitter",
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: [20, 15, 98, 4],
-          scanGaps: false
-        },
-        {
-          label: "Meu segundo Dataset",
-          fill: false,
-          LineTension: 0.1,
-          backgroundColor: "rgb(117, 0, 49)",
-          borderColor: "rgb(51, 50, 46)",
-          borderCapStyle: "butt",
-          borderJoinStyle: "mitter",
-          pointRadius: 1,
-          pointHitRadius: 10,
-          data: [29, 135, 13, 70],
-          scanGaps: false
-        }
-      ]
-    };
-    return this.getChart(this.lineCanvas.nativeElement, "line", data);
-  }
-
-
-
-
+ 
 
   // getPieChart() {
   //   const data = {

@@ -21,7 +21,7 @@
   <ion-item>
     <ion-label>Ruuvitag</ion-label>
     <ion-select [(ngModel)]="selectedItem" (ionChange)="getLastDataSensors()">
-      <ion-option *ngFor="let item of select_sensors_last" [value]="item.mac_id">{{item.Name_Ruuvitag}}</ion-option>
+      <ion-option *ngFor="let item of select_mac_home" [value]="item.mac_id">{{item.Name_Ruuvitag}}</ion-option>
     </ion-select>
   </ion-item>
 
