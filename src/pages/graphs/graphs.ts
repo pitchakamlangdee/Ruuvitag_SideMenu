@@ -1,5 +1,5 @@
 import { Component, ViewChild } from "@angular/core";
-import { NavController, NavParams } from "ionic-angular";
+import { NavController, NavParams, Slides  } from "ionic-angular";
 import chartJs from "chart.js";
 import { SensorsApiProvider } from "../../providers/sensors-api/sensors-api";
 
@@ -8,6 +8,9 @@ import { SensorsApiProvider } from "../../providers/sensors-api/sensors-api";
   templateUrl: "graphs.html"
 })
 export class GraphsPage {
+
+  @ViewChild(Slides) slides: Slides;
+
   @ViewChild("barCanvas")
   barCanvas;
   @ViewChild("lineCanvas")
@@ -34,6 +37,11 @@ export class GraphsPage {
   time = [];
   date = [];
   humidity = [];
+  average_temperature : any = 0;
+  sum_temperature : any = 0;
+  average_humidity : any = 0;
+  sum_humidity : any = 0;
+  
   //getGraphsData
 
   constructor(
@@ -44,15 +52,21 @@ export class GraphsPage {
     this.getMacSelectGraphs(); 
     
   }
+  slideChanged() {
+    let currentIndex = this.slides.getActiveIndex();
+    console.log('Current index is', currentIndex);
+  }
+
   getMacSelectGraphs() {
     this.sensorsApiProvider.getMacSelect().then(select_mac => {
       this.select_mac_graphs = select_mac;
       console.log(this.select_mac_graphs);
+      
     });
   }
 
   getGraphsDataDay() {
-   
+   let count : number = 0;
     
     this.sensorsApiProvider.getGraphsDataDay(this.myDate, this.selectedItemGraphs).then(data => {
       for (let i in data) {
@@ -64,11 +78,21 @@ export class GraphsPage {
         this.date[i] = this.time_Stamp[i][0];
         this.time[i] = this.time_Stamp[i][1];
         this.humidity[i] = data[i].humidity;
+        this.sum_temperature += parseFloat(data[i].temperature);
+        this.sum_humidity += parseFloat(data[i].humidity);
+        count ++;
+        
         
       }
-       console.log(this.mac_address);
+      if(this.sum_temperature != undefined && this.sum_humidity != undefined ){
+      this.average_temperature = (this.sum_temperature / count).toFixed(2);
+      this.average_humidity = (this.sum_humidity / count).toFixed(2);
+      }
+       console.log(this.average_temperature);
+       console.log(this.average_humidity);
        //console.log(time);
        this.getLineChart();
+       this.getBarChart();
     });
     
   }
@@ -128,13 +152,13 @@ export class GraphsPage {
   }
   getBarChart() {
     const data = {
-      labels: ["Vermelho", "Azul", "Amarelo", "Verde", "Roxo"],
+      labels: ["","temperature", "humidity"],
       datasets: [
         {
-          label: "numero de votos",
-          data: [12, 23, 15, 90, 5],
+          label: ["average weather"],
+          data: ["",this.average_temperature, this.average_humidity],
           backgroundColor: [
-            "rgb(255, 0, 0)",
+            "rgb(84, 132, 80)",
             "rgb(20, 0, 255)",
             "rgb(255, 230, 0)",
             "rgb(0, 255, 10)",
