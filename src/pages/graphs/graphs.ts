@@ -27,6 +27,7 @@ export class GraphsPage {
   lineChart: any;
   pieChart: any;
   doughnutChart: any;
+  
 
   
   mac_address = [];

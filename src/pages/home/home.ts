@@ -1,5 +1,5 @@
-import { Component /*, ViewChild */} from "@angular/core";
-import { NavController /*, Slides */} from "ionic-angular";
+import { Component , ViewChild } from "@angular/core";
+import { NavController , Slides } from "ionic-angular";
 import { SensorsApiProvider } from '../../providers/sensors-api/sensors-api';
 
 @Component({
@@ -7,12 +7,13 @@ import { SensorsApiProvider } from '../../providers/sensors-api/sensors-api';
   templateUrl: "home.html"
 })
 export class HomePage {
-  //@ViewChild('slider') private slider: Slides;
+  @ViewChild(Slides) slides: Slides;
   // numbers = [0, 1, 2];
   // firstLoad = true;
   select_mac_home: any;
   sensors_data_last: any;
-  private selectedItem : any;
+  selectedItem = [];
+  numbers = ["a","b","c","d","e"];
   
   
   
@@ -25,22 +26,33 @@ export class HomePage {
     this.sensorsApiProvider.getMacSelect()
     .then(select_mac => {
       this.select_mac_home = select_mac;
-      console.log(this.select_mac_home);
-      this.selectedItem = this.select_mac_home[0].mac_id;
-      this.getLastDataSensors();
+      //console.log(this.select_mac_home);
+      //  this.selectedItem[0] = this.select_mac_home[0].mac_id;
+      //  this.selectedItem[1] = this.select_mac_home[1].mac_id;
+      
+      for(let i in this.select_mac_home){
+      this.selectedItem[i] = this.select_mac_home[i].mac_id;
+      }
+      //this.getLastDataSensors();
     });
   }
 
   getLastDataSensors(){
+    console.log(this.selectedItem);
+    console.log(this.numbers);
     this.sensorsApiProvider.getLastDataSensors(this.selectedItem)
     
     .then(data_last => {
       this.sensors_data_last = data_last;
-      console.log(this.sensors_data_last);
+      //console.log(this.sensors_data_last);
     });
     
 
 
+  }
+  slideChanged() {
+    let currentIndex = this.slides.getActiveIndex();
+    //console.log('Current index is', currentIndex);
   }
 
 
