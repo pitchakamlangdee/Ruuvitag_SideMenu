@@ -18,8 +18,8 @@
   </ion-item>
 
   <ion-slides pager="true" (ionSlideDidChange)="slideChanged()">
-      <ion-slide *ngFor="let n of selectedItem ">
-          <h2>Current slide:{{n}} </h2>
+      <ion-slide *ngFor="let n of selectedItem ; let i = index" [attr.data-index]="i">
+          <h2>Current slide:{{sensors_data_last[i]}} </h2>
       </ion-slide>
   </ion-slides>
   

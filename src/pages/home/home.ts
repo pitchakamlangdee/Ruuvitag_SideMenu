@@ -1,66 +1,65 @@
-import { Component , ViewChild } from "@angular/core";
-import { NavController , Slides } from "ionic-angular";
-import { SensorsApiProvider } from '../../providers/sensors-api/sensors-api';
+import { Component, ViewChild } from "@angular/core";
+import { NavController, Slides } from "ionic-angular";
+import { SensorsApiProvider } from "../../providers/sensors-api/sensors-api";
 
 @Component({
   selector: "page-home",
   templateUrl: "home.html"
 })
 export class HomePage {
-  @ViewChild(Slides) slides: Slides;
+  @ViewChild(Slides)
+  slides: Slides;
   // numbers = [0, 1, 2];
   // firstLoad = true;
   select_mac_home: any;
-  sensors_data_last: any;
+  sensors_data_last = [];
   selectedItem = [];
-  numbers = ["a","b","c","d","e"];
-  
-  
-  
-  constructor(public navCtrl: NavController, public sensorsApiProvider: SensorsApiProvider) {
-    this.getMacSelectHome();
-    
+  numbers = ["a", "b", "c", "d", "e"];
 
+  constructor(
+    public navCtrl: NavController,
+    public sensorsApiProvider: SensorsApiProvider
+  ) {
+    this.getMacSelectHome();
   }
   getMacSelectHome() {
-    this.sensorsApiProvider.getMacSelect()
-    .then(select_mac => {
+    
+    this.sensorsApiProvider.getMacSelect().then(select_mac => {
       this.select_mac_home = select_mac;
       //console.log(this.select_mac_home);
       //  this.selectedItem[0] = this.select_mac_home[0].mac_id;
       //  this.selectedItem[1] = this.select_mac_home[1].mac_id;
-      
-      for(let i in this.select_mac_home){
-      this.selectedItem[i] = this.select_mac_home[i].mac_id;
+
+      for (let i in this.select_mac_home) {
+        this.selectedItem[i] = this.select_mac_home[i].mac_id;
+        //console.log(this.selectedItem)
       }
-      //this.getLastDataSensors();
+      this.getLastDataSensors();
     });
   }
 
-  getLastDataSensors(){
-    console.log(this.selectedItem);
-    console.log(this.numbers);
-    this.sensorsApiProvider.getLastDataSensors(this.selectedItem)
-    
-    .then(data_last => {
-      this.sensors_data_last = data_last;
-      //console.log(this.sensors_data_last);
-    });
-    
-
-
+  getLastDataSensors() {
+    //console.log(this.selectedItem)
+    for (let i in this.selectedItem) {
+      console.log(i, this.selectedItem[i])
+      this.sensorsApiProvider
+        .getLastDataSensors(this.selectedItem[i])
+        .then(data_last => {
+          //console.log(data_last[i])
+          this.sensors_data_last[i] = data_last[i];
+          console.log("FUNCTION: ", this.sensors_data_last[i]);
+        },err=>{
+          console.log(err)
+        });
+       //console.log(this.sensors_data_last);
+    }
+    //console.log(this.sensors_data_last);
+    //console.log(this.sensors_data_last[0]);
   }
   slideChanged() {
     let currentIndex = this.slides.getActiveIndex();
-    //console.log('Current index is', currentIndex);
+    console.log('Current index is', currentIndex);
   }
-
-
-
-  
-
-
-
 
   // loadPrev() {
   //   console.log("Prev");
