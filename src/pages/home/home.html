@@ -11,15 +11,19 @@
 <ion-content>
 
   <ion-item>
-    <ion-label>Ruuvitag</ion-label>
-    <ion-select [(ngModel)]="selectedItem" multiple="true" (ionChange)="getLastDataSensors()">
-      <ion-option *ngFor="let item of select_mac_home" [value]="item.mac_id">{{item.Name_Ruuvitag}}</ion-option>
+    <ion-label>Select Show Ruuvitag</ion-label>
+    <ion-select [(ngModel)]="selectedItem" multiple="true"  (ionChange)="getLastDataSensors()">
+      <ion-option *ngFor="let item of select_mac_home"  [value]="item.mac_id" >{{item.Name_Ruuvitag}}</ion-option>
     </ion-select>
   </ion-item>
+  <ion-item *ngFor="let d of sensors_data_last">
+    <h2 align = "center">Current slide:{{d.Name_Ruuvitag}} </h2>
+  </ion-item>  
 
-  <ion-slides pager="true" (ionSlideDidChange)="slideChanged()">
-      <ion-slide *ngFor="let n of selectedItem ; let i = index" [attr.data-index]="i">
-          <h2>Current slide:{{sensors_data_last[i]}} </h2>
+  <ion-slides pager = "true"   (ionSlideDidChange)="slideChanged()">
+      <ion-slide *ngFor="let n of sensors_data_last">
+          <h2>Current slide:{{n.mac_id}} </h2>
+          <h2>Current slide:{{n.temperature}} </h2>
       </ion-slide>
   </ion-slides>
   
