@@ -10,23 +10,50 @@
 
 <ion-content>
 
-  <ion-item>
+  <!-- <ion-item>
     <ion-label>Select Show Ruuvitag</ion-label>
     <ion-select [(ngModel)]="selectedItem" multiple="true"  (ionChange)="getLastDataSensors()">
       <ion-option *ngFor="let item of select_mac_home"  [value]="item.mac_id" >{{item.Name_Ruuvitag}}</ion-option>
     </ion-select>
-  </ion-item>
-  <ion-item *ngFor="let d of sensors_data_last">
-    <h2 align = "center">Current slide:{{d.Name_Ruuvitag}} </h2>
-  </ion-item>  
+  </ion-item> -->
+  <ion-row>
+      <ion-col col-12>
+        <div class="form-group">
+          <ion-label class="content">Select Show Ruuvitag</ion-label>
+          <ion-select [(ngModel)]="selectedItem" multiple="true"  (ionChange)="getLastDataSensors()" interface="popover" class="selector" >
+            <ion-option *ngFor="let item of select_mac_home"  [value]="item.mac_id" class="option"text-wrap>
+                {{item.Name_Ruuvitag}}
+            </ion-option>
+          </ion-select>
+        </div>
+      </ion-col>
+    </ion-row>
 
-  <ion-slides pager = "true"   (ionSlideDidChange)="slideChanged()">
-      <ion-slide *ngFor="let n of sensors_data_last">
-          <h2>Current slide:{{n.mac_id}} </h2>
-          <h2>Current slide:{{n.temperature}} </h2>
+
+  <ion-content class = "bg-image">
+  <ion-slides pager = "true"  (ionSlideDidChange)="slideChanged()">
+      <ion-slide *ngFor="let sensor_last of sensors_data_last">
+          <h1 align='center'>
+              <ion-icon color = "primary" name="bluetooth"></ion-icon> {{sensor_last.mac_id}}
+            </h1><br><br>
+            <h1 align='center'>
+              <ion-icon color = "danger"  name="thermometer"></ion-icon>    {{sensor_last.temperature}} ํC
+            </h1>
+            <br>
+            <h1 align='center'>
+              <ion-icon color = "water"   name="water"></ion-icon>    {{sensor_last.humidity}} %
+            </h1>
+            <br>
+            <h1 align='center'>
+              <ion-icon color = "secondary" name="leaf"></ion-icon>   {{sensor_last.pressure}} hPa
+            </h1>
+            <br><br><br>
+            <h1 align='center'>
+              <ion-icon name="clock"></ion-icon>    {{sensor_last.Time_Stamp}}
+            </h1>
       </ion-slide>
   </ion-slides>
-  
+  </ion-content>
   <!-- <ion-content padding class="bg-image" *ngFor="let last_data of sensors_data_last">
       <h1 align='center'>
            {{last_data.Name_Ruuvitag}}

@@ -123,7 +123,7 @@ export class GraphsPage {
       datasets: [
         {
           label: "temperature",
-          fill: false,
+          fill: true,
           LineTension: 0.1,
           backgroundColor: "rgb(0, 178, 255)",
           borderColor: "rgb(231, 205, 35)",
@@ -136,7 +136,7 @@ export class GraphsPage {
         },
         {
           label: "humidity",
-          fill: false,
+          fill: true,
           LineTension: 0.1,
           backgroundColor: "rgb(117, 0, 49)",
           borderColor: "rgb(51, 50, 46)",
